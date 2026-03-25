@@ -1,23 +1,23 @@
 package com.tenseoverflow.inbanktest.model;
 
 public class Profile {
-    private String personalId;
+    private Long personalCode;
     private Integer creditModifier;
     private Float debt; // Currently this var is not used fully, may require substituting it with
                         // hasDebt boolean
 
-    public Profile(String personalId, Integer creditModifier, Float debt) {
-        this.personalId = personalId;
+    public Profile(Long personalCode, Integer creditModifier, Float debt) {
+        this.personalCode = personalCode;
         this.creditModifier = creditModifier;
         this.debt = debt;
     }
 
-    public String getPersonalId() {
-        return personalId;
+    public Long getPersonalCode() {
+        return personalCode;
     }
 
-    public void setPersonalId(String personalId) {
-        this.personalId = personalId;
+    public void setPersonalCode(Long personalCode) {
+        this.personalCode = personalCode;
     }
 
     public Integer getCreditModifier() {
