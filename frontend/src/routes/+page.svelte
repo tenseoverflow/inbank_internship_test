@@ -72,22 +72,10 @@
 			isSubmitting = false;
 		}
 	}
-
-	function formatAmount(amount: number) {
-		return new Intl.NumberFormat('en-EE', {
-			style: 'currency',
-			currency: 'EUR',
-			maximumFractionDigits: 0
-		}).format(amount);
-	}
 </script>
 
 <svelte:head>
-	<title>Loan Decision Engine</title>
-	<meta
-		name="description"
-		content="Minimal loan decision UI for checking approval outcome and maximum approved amount."
-	/>
+	<title>Loan decision engine</title>
 </svelte:head>
 
 <div class="min-h-screen bg-slate-50 text-slate-900">
@@ -101,32 +89,6 @@
 
 			<section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
 				<div class="space-y-8">
-					<div class="flex flex-row flex-wrap justify-between gap-6">
-						<h2 class="text-xl font-semibold text-slate-950">Fill in your details</h2>
-						<!-- For easier debugging. ;) -->
-						<div class="space-y-2">
-							<h2 class="text-xl font-semibold text-slate-950">Mock Personal Codes</h2>
-							<div class="space-y-1">
-								<div class="block w-full text-left">
-									<span class="font-medium text-slate-900">Debt</span>
-									<span class="ml-2 text-slate-500">49002010965</span>
-								</div>
-								<div class="block w-full text-left">
-									<span class="font-medium text-slate-900">Segment 1</span>
-									<span class="ml-2 text-slate-500">49002010976</span>
-								</div>
-								<div class="block w-full text-left">
-									<span class="font-medium text-slate-900">Segment 2</span>
-									<span class="ml-2 text-slate-500">49002010987</span>
-								</div>
-								<div class="block w-full text-left">
-									<span class="font-medium text-slate-900">Segment 3</span>
-									<span class="ml-2 text-slate-500">49002010998</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
 					<form
 						class="space-y-5"
 						onsubmit={(event) => {
@@ -148,6 +110,8 @@
 								bind:value={form.personalCode}
 								class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-none focus:border-(--accent) focus:ring-(--accent)"
 								placeholder="49002010976"
+								maxlength="11"
+								minlength="11"
 								required
 							/>
 						</div>
@@ -190,7 +154,7 @@
 								class="inline-flex min-h-11 items-center justify-center rounded-xl bg-(--accent) px-5 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
 								disabled={isSubmitting}
 							>
-								{isSubmitting ? 'Checking...' : 'Check result'}
+								{'Check result'}
 							</button>
 						</div>
 					</form>
@@ -212,9 +176,9 @@
 										</p>
 									</div>
 									<div class="">
-										<p class="text-sm text-slate-500">Returned amount</p>
+										<p class="text-sm text-slate-500">Maximum amount</p>
 										<p class="mt-1 text-lg font-semibold text-(--accent)">
-											{formatAmount(decision.loanAmount)}
+											{decision.loanAmount + '€'}
 										</p>
 									</div>
 								</div>
@@ -223,6 +187,27 @@
 					{/if}
 				</div>
 			</section>
+
+			<!-- For easier debugging. ;) -->
+			<div class="space-y-2 text-center">
+				<h2 class="text-xl font-semibold text-slate-950">Mock Personal Codes</h2>
+				<div>
+					<span class="font-medium text-slate-900">Debt</span>
+					<span class="ml-2 text-slate-500">49002010965</span>
+				</div>
+				<div>
+					<span class="font-medium text-slate-900">Segment 1</span>
+					<span class="ml-2 text-slate-500">49002010976</span>
+				</div>
+				<div>
+					<span class="font-medium text-slate-900">Segment 2</span>
+					<span class="ml-2 text-slate-500">49002010987</span>
+				</div>
+				<div>
+					<span class="font-medium text-slate-900">Segment 3</span>
+					<span class="ml-2 text-slate-500">49002010998</span>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
