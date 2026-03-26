@@ -1,35 +1,39 @@
 package com.tenseoverflow.inbanktest.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class LoanRequest {
-    @NotBlank
-    @Size(min = 11, max = 11)
-    private Integer personalCode;
+    @NotNull
+    @Min(10000000000L)
+    @Max(99999999999L)
+    private Long personalCode;
 
-    @NotBlank
-    @Size(min = 2000, max = 10000)
+    @NotNull
+    @Min(2000)
+    @Max(10000)
     private Float amount;
 
-    @NotBlank
-    @Size(min = 12, max = 60)
+    @NotNull
+    @Min(12)
+    @Max(60)
     private Integer period;
 
     public LoanRequest() {
     }
 
-    public LoanRequest(Integer personalCode, Float amount, Integer period) {
+    public LoanRequest(Long personalCode, Float amount, Integer period) {
         this.personalCode = personalCode;
         this.amount = amount;
         this.period = period;
     }
 
-    public Integer getPersonalCode() {
+    public Long getPersonalCode() {
         return personalCode;
     }
 
-    public void setPersonalCode(Integer personalCode) {
+    public void setPersonalCode(Long personalCode) {
         this.personalCode = personalCode;
     }
 

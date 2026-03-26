@@ -7,9 +7,11 @@ import com.tenseoverflow.inbanktest.dto.LoanRequest;
 import com.tenseoverflow.inbanktest.dto.LoanResponse;
 import com.tenseoverflow.inbanktest.service.LoanService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/loans")
@@ -20,8 +22,8 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @GetMapping
-    public ResponseEntity<LoanResponse> getLoanAmount(@RequestParam LoanRequest request) {
+    @PostMapping
+    public ResponseEntity<LoanResponse> getLoanAmount(@Valid @RequestBody LoanRequest request) {
         return ResponseEntity.ok(loanService.getLoanAmount(request));
     }
 }
