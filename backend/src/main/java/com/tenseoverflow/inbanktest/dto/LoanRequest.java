@@ -1,8 +1,10 @@
 package com.tenseoverflow.inbanktest.dto;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 
 public class LoanRequest {
     @NotNull
@@ -11,8 +13,8 @@ public class LoanRequest {
     private Long personalCode;
 
     @NotNull
-    @Min(2000)
-    @Max(10000)
+    @DecimalMin("2000")
+    @DecimalMax("10000")
     private Float amount;
 
     @NotNull

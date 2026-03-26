@@ -3,10 +3,10 @@ package com.tenseoverflow.inbanktest.model;
 public class Profile {
     private Long personalCode;
     private Integer creditModifier;
-    private Float debt; // Currently this var is not used fully, may require substituting it with
-                        // hasDebt boolean
+    private Boolean debt; // I was contemplating between using float or boolean, however, since the task
+                          // mentioned "has debt", I went with boolean.
 
-    public Profile(Long personalCode, Integer creditModifier, Float debt) {
+    public Profile(Long personalCode, Integer creditModifier, Boolean debt) {
         this.personalCode = personalCode;
         this.creditModifier = creditModifier;
         this.debt = debt;
@@ -28,11 +28,11 @@ public class Profile {
         this.creditModifier = creditModifier;
     }
 
-    public Float getDebt() {
+    public Boolean hasDebt() {
         return debt;
     }
 
-    public void setDebt(Float debt) {
+    public void setDebt(Boolean debt) {
         this.debt = debt;
     }
 }
