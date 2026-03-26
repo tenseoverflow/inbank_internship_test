@@ -13,11 +13,18 @@ public class MockProfileRepository {
     private List<Profile> profiles = new ArrayList<>(
             List.of(
                     new Profile(49002010965l, 100, 1f),
-                    new Profile(49002010976l, 100, 1f),
-                    new Profile(49002010987l, 300, 1f),
+                    new Profile(49002010976l, 100, 0f),
+                    new Profile(49002010987l, 300, 0f),
                     new Profile(49002010998l, 1000, 0f)));
 
     public List<Profile> getProfiles() {
         return profiles;
+    }
+
+    public Profile getProfileByPersonalCode(Long personalCode) {
+        return profiles.stream()
+                .filter(profile -> profile.getPersonalCode().equals(personalCode))
+                .findFirst()
+                .orElse(null);
     }
 }
