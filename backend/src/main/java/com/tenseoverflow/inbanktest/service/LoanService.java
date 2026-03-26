@@ -13,6 +13,7 @@ public class LoanService {
     private static final float MAX_AMOUNT = 10000;
     private static final float MIN_AMOUNT = 2000;
     private static final int MIN_PERIOD = 12;
+    private static final int MAX_PERIOD = 60;
 
     private final MockProfileRepository profileRepository;
 
@@ -27,33 +28,52 @@ public class LoanService {
             throw new ProfileNotFoundException(request.getPersonalCode());
         }
 
-        if (profile.getDebt() > 0) {
+        if (profile.hasDebt()) {
             return new LoanResponse(false, 0.0f);
         }
 
-        float creditScore = (profile.getCreditModifier() / request.getAmount()) * request.getPeriod();
+        Integer creditModifier = profile.getCreditModifier();
+        Float requestedAmount = request.getAmount();
+        Integer requestedPeriod = request.getPeriod();
 
-        float maxLoan = profile.getCreditModifier() * request.getPeriod();
-
-        if (maxLoan > MAX_AMOUNT) {
-            maxLoan = MAX_AMOUNT;
+        if (creditModifier == null || requestedAmount == null || requestedAmount <= 0 || requestedPeriod == null) {
+            return new LoanResponse(false, 0.0f);
         }
 
-        if (creditScore < 1) {
-            Integer period = request.getPeriod();
+        float creditScore = (creditModifier / requestedAmount) * requestedPeriod;
 
-            while (maxLoan < MIN_AMOUNT && period >= MIN_PERIOD) {
-                maxLoan = profile.getCreditModifier() * period;
-                period -= 1;
+        if (requestedPeriod >= MIN_PERIOD && requestedPeriod <= MAX_PERIOD) {
+            float approvedAmount = creditModifier * requestedPeriod;
+            if (approvedAmount > MAX_AMOUNT) {
+                approvedAmount = MAX_AMOUNT;
             }
 
-            if (maxLoan > MAX_AMOUNT) {
-                maxLoan = MAX_AMOUNT;
+            if (approvedAmount >= MIN_AMOUNT) {
+                return new LoanResponse(creditScore >= 1, approvedAmount);
             }
-
-            return new LoanResponse(false, maxLoan);
-        } else {
-            return new LoanResponse(true, maxLoan);
         }
+
+        float bestAlternative = 0.0f;
+
+        for (int period = MIN_PERIOD; period <= MAX_PERIOD; period++) {
+            if (period == requestedPeriod) {
+                continue;
+            }
+
+            float candidateAmount = creditModifier * period;
+            if (candidateAmount > MAX_AMOUNT) {
+                candidateAmount = MAX_AMOUNT;
+            }
+
+            if (candidateAmount >= MIN_AMOUNT && candidateAmount > bestAlternative) {
+                bestAlternative = candidateAmount;
+            }
+        }
+
+        if (bestAlternative > 0.0f) {
+            return new LoanResponse(false, bestAlternative);
+        }
+
+        return new LoanResponse(false, 0.0f);
     }
 }

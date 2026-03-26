@@ -13,7 +13,7 @@ public class MockProfileRepository {
     // database, I decided to hardcode them here. I think repository is fitting.
     private List<Profile> profiles = new ArrayList<>(
             List.of(
-                    new Profile(49002010965l, 100, false),
+                    new Profile(49002010965l, 0, true),
                     new Profile(49002010976l, 100, false),
                     new Profile(49002010987l, 300, false),
                     new Profile(49002010998l, 1000, false)));
